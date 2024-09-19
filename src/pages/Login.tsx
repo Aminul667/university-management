@@ -1,5 +1,5 @@
-import { Button } from "antd";
-import { FieldValues, useForm, useFormContext } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
@@ -27,40 +27,38 @@ const Login = () => {
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
-    // const toastId = toast.loading("Logging in");
+    const toastId = toast.loading("Logging in");
 
-    // try {
-    //   const userInfo = {
-    //     id: data.userId,
-    //     password: data.password,
-    //   };
+    try {
+      const userInfo = {
+        id: data.userId,
+        password: data.password,
+      };
 
-    //   const res = await login(userInfo).unwrap();
+      const res = await login(userInfo).unwrap();
 
-    //   const user = verifyToken(res.data.accessToken) as TUser;
-    //   console.log(user);
+      const user = verifyToken(res.data.accessToken) as TUser;
+      console.log(user);
 
-    //   dispatch(
-    //     setUser({ user: { user }, token: res.data.accessToken, duration: 2000 })
-    //   );
-    //   toast.success("Logged In", { id: toastId });
+      dispatch(
+        setUser({ user: { user }, token: res.data.accessToken, duration: 2000 })
+      );
+      toast.success("Logged In", { id: toastId });
 
-    //   navigate(`/${user.role}/dashboard`);
-    // } catch (err) {
-    //   toast.error("Something went wrong", { id: toastId, duration: 2000 });
-    // }
+      navigate(`/${user.role}/dashboard`);
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+    }
   };
 
   return (
-    <PHForm onSubmit={onSubmit}>
-      <div>
+    <Row justify="center" align="middle" style={{ height: "100hv" }}>
+      <PHForm onSubmit={onSubmit}>
         <PHInput type="text" name="userId" label="ID" />
-      </div>
-      <div>
         <PHInput type="text" name="password" label="Password" />
-      </div>
-      <Button htmlType="submit">Login</Button>
-    </PHForm>
+        <Button htmlType="submit">Login</Button>
+      </PHForm>
+    </Row>
   );
 };
 

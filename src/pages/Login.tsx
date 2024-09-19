@@ -23,6 +23,11 @@ const Login = () => {
 
   // const { register } = useFormContext();
 
+  const defaultValues = {
+    userId: "A-0002",
+    password: "admin12345",
+  };
+
   const [login] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
@@ -46,6 +51,7 @@ const Login = () => {
       toast.success("Logged In", { id: toastId });
 
       navigate(`/${user.role}/dashboard`);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Something went wrong", { id: toastId, duration: 2000 });
     }
@@ -53,7 +59,7 @@ const Login = () => {
 
   return (
     <Row justify="center" align="middle" style={{ height: "100hv" }}>
-      <PHForm onSubmit={onSubmit}>
+      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
         <PHInput type="text" name="userId" label="ID" />
         <PHInput type="text" name="password" label="Password" />
         <Button htmlType="submit">Login</Button>
